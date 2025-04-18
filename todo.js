@@ -11,22 +11,20 @@ const dateInput = document.getElementById("date-input");
 const descriptionInput = document.getElementById("description-input");
 const currentStatus = document.getElementById("status")
 
-const taskData = JSON.parse(localStorage.getItem("data")) || []; // CONVERTS THE JSON STRING INTO KEYS, VALUES, OBJECTS THAT CAN BE USED BY JAVASCRIPT
+const taskData = JSON.parse(localStorage.getItem("data")) || [];
 
 let currentTask = {};
 
-// REMOVE WHITESPACE WITH TRIM AND REPLACE WITH A REGEX CAPTURE GROUP
 const removeSpecialCharacters = (val) =>
   val.trim().replace(/[^A-Za-z0-9\-\s]/g, "");
 
 const addOrUpdateTask = () => {
-  // EMPTY STRING IS FALSY, '!' NEGATES IT MAKING IT TRUE
   if (!titleInput.value.trim()) {
     alert("Please provide a title");
     return;
   }
 
-  const dataArrIndex = taskData.findIndex((item) => item.id === currentTask.id); // RETURNS THE INDEX OF THE FIRST ITEM THAT SATISFIES THE CONDITION
+  const dataArrIndex = taskData.findIndex((item) => item.id === currentTask.id);
 
   const taskObj = {
     id: `${removeSpecialCharacters(titleInput.value)
@@ -36,16 +34,16 @@ const addOrUpdateTask = () => {
     title: removeSpecialCharacters(titleInput.value),
     date: dateInput.value,
     description: descriptionInput.value,
-    status: currentStatus.value // VALUE SHOULD BE THE SAME VALUE IN <OPTION>
+    status: currentStatus.value
   };
 
   if (dataArrIndex === -1) {
-    taskData.unshift(taskObj); // ADDS THE TASKOBJ TO THE TASKDATA ARR AND RETURNS THE LENGTH OF THE NEW ARRAY
+    taskData.unshift(taskObj);
   } else {
-    taskData[dataArrIndex] = taskObj; // UPDATES THE INDEX OF THE ARRAY WITH THE UPDATED VALUE
+    taskData[dataArrIndex] = taskObj;
   }
 
-  localStorage.setItem("data", JSON.stringify(taskData)); // CONVERTS THE KEY-VALUE PAIRS BACK INTO A STRING BECAUSE LOCALSTORAGE IS DESIGNED TO STORE STRINGS
+  localStorage.setItem("data", JSON.stringify(taskData));
   updateTaskContainer();
   reset();
 };
@@ -53,8 +51,6 @@ const addOrUpdateTask = () => {
 const updateTaskContainer = () => {
   tasksContainer.innerHTML = "";
   
-  // REMOVED ONCLICK AND REWROTE THE FUNCTION BELOW TO MAKE THE CODE CLEANER
-  // CLASSES CAN BE USED WITHOUT NEEDING TO STYLE IT (ALSO USED FOR TARGETTING IN JAVASCRIPT)
   taskData.forEach(({ id, title, date, description, status }) => {
     tasksContainer.innerHTML += `
       <div class="task" id="${id}">
@@ -93,13 +89,11 @@ const toggleDetails = icon => {
 const deleteTask = (buttonElement) => {
   const dataArrIndex = taskData.findIndex(item => item.id === buttonElement.parentElement.parentElement.id)
 
-  // REMOVES THE BUTTON, REMOVES 1 ITEM FROM THE INDEX OF THE 'dataArrIndex' AND SAVES IT BACK TO LOCAL STORAGE
   buttonElement.parentElement.parentElement.remove();
   taskData.splice(dataArrIndex, 1);
   localStorage.setItem("data", JSON.stringify(taskData));
 }
 
-// ADDED HIDE ICON FUNCTION THAT SELECTS ALL THE ARROW ICONS WHEN CLICKING EDIT OR NEW TASK AND HIDES THEM
 const hideIcon = () => {
   const allArrows = document.querySelectorAll(".toggle-arrow");
   allArrows.forEach((arrow) => {
@@ -107,7 +101,6 @@ const hideIcon = () => {
   })
 }
 
-// ADDED SHOW ICON FUNCTION THAT SELECTS ALL THE ARROW ICONS WHEN CLICKING EXIT BUTTON
 const showIcon = () => {
   const allArrows = document.querySelectorAll(".toggle-arrow");
   allArrows.forEach((arrow) => {
@@ -157,17 +150,14 @@ openTaskFormBtn.addEventListener("click", () => {
 });
 
 closeTaskFormBtn.addEventListener("click", () => {
-  // CHECKS IF ONE OF THEM HAS A VALUE
   const formInputsContainValues = 
     titleInput.value || dateInput.value || descriptionInput.value;
   
-  // CHECKS IF THE CURRENT VALUE IS NOT THE SAME AS THE ORIGINAL VALUE
   const formInputValuesUpdated =
     titleInput.value !== currentTask.title ||
     dateInput.value !== currentTask.date ||
     descriptionInput.value !== currentTask.description;
 
-  // CHECKS IF THE USER INPUTS AT LEAST ONE AND AT LEAST ONE OF THE CURRENT VALUES IS NOT THE SAME AS THE ORIGINAL VALUE
   if (formInputsContainValues && formInputValuesUpdated) {
     confirmCloseDialog.showModal();
   } else {
