@@ -31,8 +31,8 @@ main {
 h1 {
     color: transparent;
     background-image: linear-gradient(90deg, var(--eerie-black), var(--dark-liver));
-    -webkit-background-clip: text;  /* CLIPS THE BACKGROUND INTO THE SHAPE OF THE TEXT */
-    background-clip: text;  /* CLIPS THE BACKGROUND INTO THE SHAPE OF THE TEXT. STANDARD VERSION BUT NOT SUPPORTED BY ALL BROWSERS. SHOULD BE PAIRED WITH -WEBKIT PREFIX LIKE GOOGLE AND SAFARI*/
+    -webkit-background-clip: text; 
+    background-clip: text; 
     font-weight: 800;
     font-size: 3rem;
     margin: 20px 0 40px 0;
@@ -84,19 +84,16 @@ h1 {
     padding: 14px 24px;
     align-self: center;
     justify-self: center;
-    /* ALIGN-SELF AND JUSTIFY-SELF OVERRIDES THE ALIGN-ITEMS PROPERTY FOR FLEX */
 }
 
-/* CLEAN DROPDOWN STYLING */
 .dropdown {
   width: 100%;
-  padding: 3px 6px; /* COMFORTABLE PADDING SAME W/ OTHER INPUTS */
+  padding: 3px 6px;
   border: none;
-  border-radius: 6px; /* SLIGHTLY ROUNDED CORNERS SAME W/ OTHER INPUTS */
+  border-radius: 6px;
   cursor: pointer;
 }
 
-/* FOCUS STATE (DESIGN WHEN CLICKING TAB) */
 .dropdown:focus, .btn:focus, .form-control:focus, .close-task-form-btn:focus {
   outline: none;
   box-shadow: 0 0 0 2px var(--white);
@@ -247,8 +244,6 @@ p.copyright::before {
 a {
     color: var(--eerie-black);
 }
-
-/* MAX-WIDTH: 600PX OR WIDTH < 600PX */
 
 @media (max-width: 600px) {
     .todo-app, .task-form {
