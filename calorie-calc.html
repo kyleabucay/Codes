@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="calorie-calc.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <title>Calorie Tracker</title>
+  </head>
+  <body>
+    <main>
+      <h1 class="title">Calorie Tracker</h1>
+      <!--Remaining Calories Section-->
+      <div id="calories-remaining">
+        <h2 class="calories-today">Today's Calories</h2>
+      </div>
+      <!--Food Tracker Body (Breakfast, Lunch, Dinner, Snacks)-->
+      <div class="food-tracker-form">
+        <!--Breakfast Section-->
+        <div class="food-container">
+            <!--Breakfast Header & Total Calories-->
+          <div class="meal-header">
+            <h2 class="meal-title">Breakfast</h2>
+            <p id="breakfast-total-calories" class="meal-calories">0 cal</p>
+          </div>
+          <!--Breakfast Add & Clear Buttons-->
+          <div class="container-buttons">
+            <button
+              id="breakfast-add-food-button"
+              type="button"
+              class="btn"
+            >
+              <i class="ri-add-line"></i><span>Add Food</span>
+            </button>
+            <button id="breakfast-clear-button" type="button" class="btn">
+              <i class="ri-subtract-line"></i><span>Clear</span>
+            </button>
+          </div>
+          <!--Breakfast Hidden Food Form-->
+          <div id="breakfast-food-form" class="food-form hidden">
+            <h2 class="meal-title">Breakfast</h2>
+            <form>
+              <div class="form-group">
+                <label class="form-label">Food Name</label>
+                <input
+                  required
+                  type="text"
+                  placeholder="e.g. Sinigang"
+                  class="form-input"
+                  id="bfast-food-name"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Calories</label>
+                <input
+                  required
+                  type="number"
+                  placeholder="Enter Calories"
+                  class="form-input"
+                  id="bfast-calories"
+                />
+              </div>
+              <div class="form-buttons">
+                <button id="breakfast-add-button" type="submit" class="submit-button">Add</button>
+                <button id="breakfast-cancel-button" type="button" class="cancel-button">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!--Lunch Section-->
+        <div class="food-container">
+            <!--Lunch Header & Total Calories-->
+          <div class="meal-header">
+            <h2 class="meal-title">Lunch</h2>
+            <p id="lunch-total-calories" class="meal-calories">0 cal</p>
+          </div>
+          <!--Lunch Add & Clear Buttons-->
+          <div class="container-buttons">
+          <button
+            id="lunch-add-food-button"
+            type="button"
+            class="btn"
+          >
+            <i class="ri-add-line"></i><span>Add Food</span>
+          </button>
+          <button
+            id="lunch-clear-button"
+            type="button"
+            class="btn"
+          >
+            <i class="ri-subtract-line"></i><span>Clear</span>
+          </button>
+        </div>
+          <!--Lunch Hidden Food Form-->
+          <div id="lunch-food-form" class="food-form hidden">
+            <h2 class="meal-title">Lunch</h2>
+            <form>
+              <div class="form-group">
+                <label class="form-label">Food Name</label>
+                <input
+                  required
+                  type="text"
+                  placeholder="e.g. Sinigang"
+                  class="form-input"
+                  id="lunch-food-name"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Calories</label>
+                <input
+                  required
+                  type="number"
+                  class="form-input"
+                  placeholder="Enter Calories"
+                  id="lunch-calories"
+                />
+              </div>
+              <div class="form-buttons">
+                <button id="lunch-add-button" type="submit" class="submit-button">Add</button>
+                <button id="lunch-cancel-button" type="button" class="cancel-button">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!--Dinner Section-->
+        <div class="food-container">
+            <!--Dinner Header & Total Calories-->
+          <div class="meal-header">
+            <h2 class="meal-title">Dinner</h2>
+            <p id="dinner-total-calories" class="meal-calories">0 cal</p>
+          </div>
+          <!--Dinner Add & Clear Buttons-->
+          <div class="container-buttons">
+          <button
+            id="dinner-add-food-button"
+            type="button"
+            class="btn"
+          >
+            <i class="ri-add-line"></i><span>Add Food</span>
+          </button>
+          <button
+            id="dinner-clear-button"
+            type="button"
+            class="btn"
+          >
+            <i class="ri-subtract-line"></i><span>Clear</span>
+          </button>
+        </div>
+
+          <!--Dinner Hidden Food Form-->
+          <div id="dinner-food-form" class="food-form hidden">
+            <h2 class="meal-title">Dinner</h2>
+            <form>
+              <div class="form-group">
+                <label class="form-label">Food Name</label>
+                <input
+                  required
+                  type="text"
+                  placeholder="e.g. Sinigang"
+                  class="form-input"
+                  id="dinner-food-name"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Calories</label>
+                <input
+                  required
+                  type="number"
+                  class="form-input"
+                  placeholder="Enter Calories"
+                  id="dinner-calories"
+                />
+              </div>
+              <div class="form-buttons">
+                <button id="dinner-add-button" type="submit" class="submit-button">Add</button>
+                <button id="dinner-cancel-button" type="button" class="cancel-button">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!--Snacks Section-->
+        <div class="food-container">
+            <!--Snacks Header & Total Calories-->
+          <div class="meal-header">
+            <h2 class="meal-title">Snacks</h2>
+            <p id="snacks-total-calories" class="meal-calories">0 cal</p>
+          </div>
+          <!--Snacks Add & Clear Buttons-->
+          <div class="container-buttons">
+          <button
+            id="snacks-add-food-button"
+            type="button"
+            class="btn"
+          >
+            <i class="ri-add-line"></i><span>Add Food</span>
+          </button>
+          <button
+            id="snacks-clear-button"
+            type="button"
+            class="btn"
+          >
+            <i class="ri-subtract-line"></i><span>Clear</span>
+          </button>
+        </div>
+
+          <!--Snacks Hidden Food Form-->
+          <div id="snacks-food-form" class="food-form hidden">
+            <h2 class="meal-title">Snacks</h2>
+            <form>
+              <div class="form-group">
+                <label class="form-label">Food Name</label>
+                <input
+                  required
+                  type="text"
+                  placeholder="e.g. Sinigang"
+                  class="form-input"
+                  id="snacks-food-name"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Calories</label>
+                <input
+                  required
+                  type="number"
+                  class="form-input"
+                  placeholder="Enter Calories"
+                  id="snacks-calories"
+                />
+              </div>
+              <div class="form-buttons">
+                <button id="snacks-add-button" type="submit" class="submit-button">Add</button>
+                <button id="snacks-cancel-button" type="button" class="cancel-button">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <ul class="menu-bar">
+          <li id="Home" class="tools">
+            <i class="ri-home-4-line icon-button"></i>
+            <span>Home</span>
+          </li>
+          <li id="Progress" class="tools">
+            <i class="ri-progress-3-line icon-button"></i>
+            <span>Progress</span>
+          </li>
+          <li id="Settings" class="tools">
+            <i class="ri-settings-3-line icon-button"></i>
+            <span>Settings</span>
+          </li>
+        </ul>
+      </div>
+    </main>
+    <!--Background Overlay-->
+    <div class="background-overlay hidden"></div>
+    <script src="calorie-calc.js"></script>
+  </body>
+</html>

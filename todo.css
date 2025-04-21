@@ -1,0 +1,289 @@
+@import url('https://fonts.googleapis.com/css2?family=Castoro+Titling&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Press+Start+2P&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    --light-gray: #D4D4D2;
+    --eerie-black:  #1C1C1C;
+    --dark-liver: #505050;
+    --vivide-gamboge: #FF9500;
+    --white: #ffffff;
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--light-gray);
+    font-family: 'Poppins', sans-serif;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+}
+
+h1 {
+    color: transparent;
+    background-image: linear-gradient(90deg, var(--eerie-black), var(--dark-liver));
+    -webkit-background-clip: text;  /* CLIPS THE BACKGROUND INTO THE SHAPE OF THE TEXT */
+    background-clip: text;  /* CLIPS THE BACKGROUND INTO THE SHAPE OF THE TEXT. STANDARD VERSION BUT NOT SUPPORTED BY ALL BROWSERS. SHOULD BE PAIRED WITH -WEBKIT PREFIX LIKE GOOGLE AND SAFARI*/
+    font-weight: 800;
+    font-size: 3rem;
+    margin: 20px 0 40px 0;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease; 
+}
+
+.todo-app {
+    background-color: var(--eerie-black);
+    width: 400px;
+    height: 550px;
+    border-radius: 15px;
+    padding: 8px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 10px 10px 20px 0.2px rgba(0,0,0,0.6);
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: var(--vivide-gamboge);
+    border-radius: 15px;
+    border: none;
+    font-weight: 600;
+    margin: 12px 8px;
+    cursor: pointer;
+    color: var(--eerie-black);
+    font-size: 0.9rem;
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #c17000;
+}
+
+.large-btn {
+    width: 30%;
+    min-width: 150px;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 14px 24px;
+    align-self: center;
+    justify-self: center;
+    /* ALIGN-SELF AND JUSTIFY-SELF OVERRIDES THE ALIGN-ITEMS PROPERTY FOR FLEX */
+}
+
+/* CLEAN DROPDOWN STYLING */
+.dropdown {
+  width: 100%;
+  padding: 3px 6px; /* COMFORTABLE PADDING SAME W/ OTHER INPUTS */
+  border: none;
+  border-radius: 6px; /* SLIGHTLY ROUNDED CORNERS SAME W/ OTHER INPUTS */
+  cursor: pointer;
+}
+
+/* FOCUS STATE (DESIGN WHEN CLICKING TAB) */
+.dropdown:focus, .btn:focus, .form-control:focus, .close-task-form-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--white);
+}
+
+.task-container {
+    line-height: 2rem;
+    padding-inline: 0.75rem;
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    opacity: 0.4;
+}
+
+.task-details.expanded {
+    max-height: 500px;
+    opacity: 1;
+}
+
+.toggle-arrow {
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.toggle-arrow.rotated {
+    transform: rotate(180deg);
+}
+
+.close-task-form-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--white);
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.close-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.task-form {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--eerie-black);
+    border-radius: 15px;
+    padding: 15px;
+    width: 400px;
+    height: 550px;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: auto;
+}
+
+.task-form-header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.task-form-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.task-form-footer {
+    display: flex;
+    justify-content: center;
+}
+
+.task-form-label, #title-input, #date-input, #description-input {
+    display: block;
+    font-family: 'Poppins', sans-serif;
+}
+
+.task-form-label {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+#title-input, #date-input, #description-input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 3px 6px;
+    border: none;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+#confirm-close-dialog {
+    padding: 10px;
+    text-align: center;
+    margin: 10px auto;
+    border-radius: 15px;
+}
+
+.confirm-close-dialog-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+#tasks-container {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.task {
+    margin: 5px 0;
+}
+
+.hidden {
+    display: none;
+}
+
+footer {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px; 
+    color: var(--eerie-black);
+    bottom: 10px;
+    text-align: center;
+    width: 100%;
+    font-size: 1.125rem;
+}
+
+p.copyright::before {
+    content: "© ";
+}
+
+a {
+    color: var(--eerie-black);
+}
+
+/* MAX-WIDTH: 600PX OR WIDTH < 600PX */
+
+@media (max-width: 600px) {
+    .todo-app, .task-form {
+        width: 400px;
+        height: 450px;
+        transition: all 0.3s ease;
+    }
+
+    .task-form {
+        padding-top: 1.5rem;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    .task-form-label {
+        font-size: 1.25rem;
+    }
+
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    #title-input, #date-input {
+        height: 2rem;
+    }
+
+    #title-input, #date-input, #description-input, #status {
+        padding: 5px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (height < 750px) {
+    footer {
+        display: none;
+    }
+}
