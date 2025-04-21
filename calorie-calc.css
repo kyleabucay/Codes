@@ -188,13 +188,14 @@ span:hover {
 
 .submit-button,
 .cancel-button {
-  padding: 7px 10px;
+  padding: 7px;
   border: none;
   border-radius: 6px;
   color: #555;
   width: 30%;
   max-width: 100px;
   cursor: pointer;
+  text-align: center;
   transition: all 0.3s ease;
 }
 

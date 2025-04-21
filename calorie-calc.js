@@ -60,18 +60,36 @@ const foodData = JSON.parse(localStorage.getItem("food")) || [];
 
 // Removes trailing whitespaces, and removes any character that is NOT a letter and hyphen. Replace it with an empty string
 const removeSpecialCharacters = (value) => {
-    value.trim().replace(/[^\p{L}\s\-]/gu, "");
+    return value.trim().replace(/[^\p{L}\s\-]/gu, "");
 }
 
 const addFood = (mealType) => {
-    
-    
+    const meal = meals[mealType];
+    const foodName = meal.foodInput.value;
+    const foodCalories = meal.foodCal.value;
+
+    if (!foodName || !foodCalories) {
+        alert("Please provide a valid food name and calorie amount.");
+        return;
+    }
+
+    const newFoodItem = {
+        name: removeSpecialCharacters(foodName),
+        calories: foodCalories
+    }
+
+    let storedFood = JSON.parse(localStorage.getItem(meal.nameKey)) || [];
+    let storedCalories = JSON.parse(localStorage.getItem(meal.calKey)) || [];
+
+    storedFood.push(newFoodItem.name);
+    storedCalories.push(newFoodItem.calories);
+
+    localStorage.setItem(meal.nameKey, JSON.stringify(storedFood));
+    localStorage.setItem(meal.calKey, JSON.stringify(storedCalories));
 }
 
-console.log(foodData);
-
 // Attaching the same event listeners to 'addFoodBtn' & 'cancelBtn'
-Object.values(meals).forEach(meal => {
+Object.entries(meals).forEach(([mealType, meal]) => {
     meal.addFoodBtn.addEventListener("click", () => {
         meal.foodForm.classList.toggle("hidden");
         overlay.classList.toggle("hidden");
@@ -86,14 +104,7 @@ Object.values(meals).forEach(meal => {
     });
 
     meal.addBtn.addEventListener("click", () => {
-        const foodInput = meal.foodInput.value.trim();
-        const foodCal = meal.foodCal.value.trim();
-
-        if (!foodInput && !foodCal) {
-            alert("Please provide a valid input")
-        }
-
-        addFood();
+        addFood(mealType);
     });
 });
 
