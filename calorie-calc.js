@@ -55,35 +55,41 @@ const meals = {
         calKey: "snacksCalories"
     }
 }
-// Using the localStorage to retrieve data or returns an empty array if not found
-const foodData = JSON.parse(localStorage.getItem("food")) || [];
 
-// Removes trailing whitespaces, and removes any character that is NOT a letter and hyphen. Replace it with an empty string
+// Removes trailing whitespaces, and removes any character that is NOT letters, hyphens, and spaces. Replace it with an empty string
 const removeSpecialCharacters = (value) => {
     return value.trim().replace(/[^\p{L}\s\-]/gu, "");
 }
 
+
+//  Function block to dynamically add multiples items for each form
 const addFood = (mealType) => {
-    const meal = meals[mealType];
+    const meal = meals[mealType];       // Used [mealType] instead of dot notation since mealType is not a static, known property name. Bracket notation is for accessing dynamic, variable property names
     const foodName = meal.foodInput.value;
     const foodCalories = meal.foodCal.value;
 
+    // Checks if foodName or foodCalories are blank and issues an alert if it is blank
     if (!foodName || !foodCalories) {
         alert("Please provide a valid food name and calorie amount.");
         return;
     }
 
+    // Create new object with 'name' and 'calories' as property
     const newFoodItem = {
         name: removeSpecialCharacters(foodName),
         calories: foodCalories
     }
 
+    // This retrieves existing arrays from localStorage or creates empty arrays if none exist
+    // The || [] is the 'fallback' or the 'default value' and is essential for handling the first-time use case when no data has been saved yet, preventing errors and allowing your code to work correctly from the beginning.
     let storedFood = JSON.parse(localStorage.getItem(meal.nameKey)) || [];
     let storedCalories = JSON.parse(localStorage.getItem(meal.calKey)) || [];
 
+    // Adds the item into the array
     storedFood.push(newFoodItem.name);
     storedCalories.push(newFoodItem.calories);
 
+    // Converts it back into a JSON string
     localStorage.setItem(meal.nameKey, JSON.stringify(storedFood));
     localStorage.setItem(meal.calKey, JSON.stringify(storedCalories));
 }
