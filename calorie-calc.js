@@ -14,6 +14,7 @@ const meals = {
     foodCal: document.getElementById("bfast-calories"),
     nameKey: "breakfastFood",
     calKey: "breakfastCalories",
+    foodContainer: document.getElementById("breakfast-food-container")
   },
 
   lunch: {
@@ -27,6 +28,7 @@ const meals = {
     foodCal: document.getElementById("lunch-calories"),
     nameKey: "lunchFood",
     calKey: "lunchCalories",
+    foodContainer: document.getElementById("lunch-food-container")
   },
 
   dinner: {
@@ -40,6 +42,7 @@ const meals = {
     foodCal: document.getElementById("dinner-calories"),
     nameKey: "dinnerFood",
     calKey: "dinnerCalories",
+    foodContainer: document.getElementById("dinner-food-container")
   },
 
   snacks: {
@@ -53,15 +56,20 @@ const meals = {
     foodCal: document.getElementById("snacks-calories"),
     nameKey: "snacksFood",
     calKey: "snacksCalories",
+    foodContainer: document.getElementById("snacks-food-container")
   },
 };
+
+
 
 // Removes trailing whitespaces, and removes any character that is NOT letters, hyphens, and spaces. Replace it with an empty string
 const removeSpecialCharacters = (value) => {
   return value.trim().replace(/[^\p{L}\s\-]/gu, "");
 };
 
-//  Function block to dynamically add multiples items for each form
+
+
+// Function block to dynamically add multiples items for each form
 const addFood = (mealType) => {
   // Used [mealType] instead of dot notation since mealType is not a static, known property name. Bracket notation is for accessing dynamic, variable property names
   const meal = meals[mealType];
@@ -82,20 +90,61 @@ const addFood = (mealType) => {
 
   // This retrieves existing arrays from localStorage or creates empty arrays if none exist
   // The || [] is the 'fallback' or the 'default value' and is essential for handling the first-time use case when no data has been saved yet, preventing errors and allowing your code to work correctly from the beginning.
-  let storedFood = JSON.parse(localStorage.getItem(meal.nameKey)) || [];
+  let storedFoodNames = JSON.parse(localStorage.getItem(meal.nameKey)) || [];
   let storedCalories = JSON.parse(localStorage.getItem(meal.calKey)) || [];
 
   // Adds the item into the array
-  storedFood.push(newFoodItem.name);
+  storedFoodNames.push(newFoodItem.name);
   storedCalories.push(newFoodItem.calories);
 
   // Converts it back into a JSON string
-  localStorage.setItem(meal.nameKey, JSON.stringify(storedFood));
+  localStorage.setItem(meal.nameKey, JSON.stringify(storedFoodNames));
   localStorage.setItem(meal.calKey, JSON.stringify(storedCalories));
+  updateFoodContainer(mealType);
 };
 
+
+
+// Display food into the container
+const updateFoodContainer = (mealType) => {
+  const meal = meals[mealType];
+  const foodHolder = meal.foodContainer;
+
+  foodHolder.innerHTML = ""; // To prevent duplication of data
+
+  const storedFoodNames = JSON.parse(localStorage.getItem(meal.nameKey)) || [];
+  const storedCalories = JSON.parse(localStorage.getItem(meal.calKey)) || [];
+
+  storedFoodNames.forEach((name, calIndex) => {
+    const calories = storedCalories[calIndex];
+    foodHolder.innerHTML += `
+      <div class="meal-display">
+        <p>${name}</p>
+        <p>${calories}</p>
+      </div>
+    `
+  })
+}
+
+
+
+// Clear food entries
+const clearFood = (mealType) => {
+  const meal = meals[mealType];
+  const foodHolder = meal.foodContainer;
+
+  localStorage.removeItem(meal.nameKey);
+  localStorage.removeItem(meal.calKey);
+
+  foodHolder.innerHTML = "";  // Could be backticks if you're dynamically adding data
+}
+
+
+
+
+
 // Attaching the same event listeners to 'addFoodBtn' & 'cancelBtn'
-Object.entries(meals).forEach(([mealType, meal]) => {
+Object.entries(meals).forEach(([mealType, meal, index]) => {
   meal.addFoodBtn.addEventListener("click", () => {
     meal.foodForm.classList.toggle("hidden");
     overlay.classList.toggle("hidden");
@@ -109,9 +158,14 @@ Object.entries(meals).forEach(([mealType, meal]) => {
     overlay.classList.toggle("hidden");
   });
 
-  meal.addBtn.addEventListener("click", () => {
+  meal.addBtn.addEventListener("click", (e) => {
+    e.preventDefault();
     addFood(mealType);
+    meal.foodForm.classList.add("hidden");
+    overlay.classList.add("hidden");
   });
-});
 
-// Modal if there is an input and you want to click cancel
+  meal.clearBtn.addEventListener("click", () => {
+    clearFood(mealType)
+  })
+});
