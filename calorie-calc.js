@@ -1,5 +1,6 @@
-const remainingCalories = document.getElementById("calories-remaining");
+const caloriesToday = document.getElementById("calories-today");
 const overlay = document.querySelector(".background-overlay");
+const caloriesDisplay = document.getElementById("calories-display")
 
 // Organized meals for a cleaner code
 const meals = {
@@ -64,7 +65,7 @@ const meals = {
 
 // Removes trailing whitespaces, and removes any character that is NOT letters, hyphens, and spaces. Replace it with an empty string
 const removeSpecialCharacters = (value) => {
-  return value.trim().replace(/[^\p{L}\s\-]/gu, "");
+  return value.trim().replace(/[^0-9\p{L}\s\-\/]/gu, "");
 };
 
 
@@ -120,7 +121,7 @@ const updateFoodContainer = (mealType) => {
     foodHolder.innerHTML += `
       <div class="meal-display">
         <p>${name}</p>
-        <p>${calories}</p>
+        <p>${calories} cal</p>
       </div>
     `
   })
@@ -132,19 +133,71 @@ const updateFoodContainer = (mealType) => {
 const clearFood = (mealType) => {
   const meal = meals[mealType];
   const foodHolder = meal.foodContainer;
+  const mealTypeCalories = meal.totalCal;
 
+  // 1. Get the calories of the meal to be cleared *before* clearing local storage
+  let caloriesToRemove = 0;
+  const storedCaloriesValues = JSON.parse(localStorage.getItem(meal.calKey));
+  if (storedCaloriesValues) {
+    caloriesToRemove = storedCaloriesValues.reduce((acc, currVal) => acc + parseInt(currVal), 0)
+  }
+
+  // 2. Clear the stored data for the meal
   localStorage.removeItem(meal.nameKey);
   localStorage.removeItem(meal.calKey);
 
+  // 3. Clear the display for the meal
   foodHolder.innerHTML = "";  // Could be backticks if you're dynamically adding data
+  mealTypeCalories.textContent = "0 cal";
+
+  // 4. Update the "Today's Calories" display
+  updateCaloriesToday(caloriesToRemove)
+}
+
+
+// Display total calories per meal
+const displayMealTypeTotalCalories = (mealType) => {
+  const meal = meals[mealType];
+  const mealTypeCalories = meal.totalCal;
+
+  const storedCalories = JSON.parse(localStorage.getItem(meal.calKey)) || [];
+
+  const totalCalories = storedCalories.reduce((acc, currVal) => {
+    return parseInt(acc) + parseInt(currVal)
+  }, 0);
+
+  mealTypeCalories.textContent = `${totalCalories} cal`
+  updateCaloriesToday();
 }
 
 
 
+const updateCaloriesToday = () => {
+  let totalCaloriesToday = 0;
+
+  for (const mealType in meals) {
+    if (meals.hasOwnProperty(mealType)) {
+      const meal = meals[mealType];
+      const mealTypeCalories = meal.totalCal;
+      const mealTypeCaloriesText = mealTypeCalories.textContent;
+      const regex = /(\d+)/
+
+      const caloriesMatch = mealTypeCaloriesText.match(regex);
+      if (caloriesMatch && caloriesMatch[1]) {
+        totalCaloriesToday += parseInt(caloriesMatch[1]);
+      }
+    }
+  }
+
+  if (caloriesDisplay) {
+    caloriesDisplay.textContent = `${totalCaloriesToday} cal`
+  }
+}
+
 
 
 // Attaching the same event listeners to 'addFoodBtn' & 'cancelBtn'
-Object.entries(meals).forEach(([mealType, meal, index]) => {
+Object.entries(meals).forEach(([mealType, meal]) => {
   meal.addFoodBtn.addEventListener("click", () => {
     meal.foodForm.classList.toggle("hidden");
     overlay.classList.toggle("hidden");
@@ -161,6 +214,7 @@ Object.entries(meals).forEach(([mealType, meal, index]) => {
   meal.addBtn.addEventListener("click", (e) => {
     e.preventDefault();
     addFood(mealType);
+    displayMealTypeTotalCalories(mealType);
     meal.foodForm.classList.add("hidden");
     overlay.classList.add("hidden");
   });

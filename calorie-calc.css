@@ -45,6 +45,26 @@ main {
   border-radius: 15px 15px 0 0;
 }
 
+.paragraph {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+}
+
+#calories-display {
+  font-size: 2.25rem;
+}
+
+#cal-text {
+  font-size: 1.1rem;
+  color: #666;
+  border: none;
+  margin: 0 auto;
+  background-color: #ffffff;
+  justify-content: center;
+}
+
 h2.calories-today,
 .calories-remaining {
   text-align: center;
@@ -84,6 +104,7 @@ h2.calories-today,
 .meal-calories {
   padding-top: 2px;
   color: #666;
+  font-size: 1.1rem;
 }
 
 .container-buttons {
@@ -133,6 +154,28 @@ ul.menu-bar {
 
 span:hover {
   cursor: pointer;
+}
+
+.tools a {
+  text-decoration: none;
+  color: #000;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.tools a::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--algae);
+  transition: all 0.3s ease;
+}
+
+.tools a:hover::after {
+  width: 100%;
 }
 
 /* Hidden Food Form Styles */
@@ -240,6 +283,12 @@ span:hover {
   }
 
   .btn span {
+    display: none;
+  }
+}
+
+@media (width < 510px) {
+  #cal-text {
     display: none;
   }
 }
